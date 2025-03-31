@@ -54,8 +54,6 @@ public sealed class GetItineraries : ISlice
 
         public async Task<IResult> Handle(GetItinerariesQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("{Name} feature callled", nameof(GetItinerariesHandler));
-
 
             var itineraries = await
                 dbContext.Itineraries.Where(i => request.SearchFor == null ||
