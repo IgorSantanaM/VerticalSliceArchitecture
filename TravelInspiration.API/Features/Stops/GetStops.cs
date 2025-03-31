@@ -14,13 +14,9 @@ namespace TravelInspiration.API.Features.Stops
         {
             endpointRouteBuilder.MapGet("api/itineraries/{itneararyId}/stops",
                 (int itneararyId,
-                ILoggerFactory logger,
                 IMediator mediator,
                 CancellationToken cancellationToken) =>
                 {
-                    logger.CreateLogger(categoryName: "EndpointHandlers")
-                        .LogInformation("{Name} feature called", nameof(GetStops));
-
                     mediator.Send(new GetStopsQuery(itneararyId), cancellationToken);
 
                 });

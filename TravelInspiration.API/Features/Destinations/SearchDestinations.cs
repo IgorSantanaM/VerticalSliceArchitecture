@@ -7,7 +7,7 @@ public sealed class SearchDestinations : ISlice
 {
     public void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app.MapGet("api/destinations", async (string? searchFor,
+        endpointRouteBuilder.MapGet("api/destinations", async (string? searchFor,
             ILoggerFactory logger,
             IDestinationSearchApiClient destinationApiClient,
             CancellationToken cancellationToken) =>
