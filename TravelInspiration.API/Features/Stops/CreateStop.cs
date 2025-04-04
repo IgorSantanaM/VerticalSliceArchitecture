@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -33,7 +34,20 @@ namespace TravelInspiration.API.Features.Stops
             public string? ImageUri { get; set;} = imageUri;
 
         }
-
+        public sealed class CreateStopCommandValidator : AbstractValidator<CreateStopCommand>
+        {
+            public CreateStopCommandValidator()
+            {
+                RuleFor(n => n.Name)
+                    .NotEmpty()
+                    .MaximumLength(200)
+                    .WithMessage("Name must be less than 200 characters");
+                RuleFor(i => i.ImageUri)
+                    .Must(ImageUri => Uri.TryCreate(ImageUri ?? "", UriKind.Absolute, out _))
+                    .When(i => !string.IsNullOrEmpty(i.ImageUri))
+                    .WithMessage("ImageUri must be a valid URI");
+            }
+        }
         public sealed class CreateStopCommandHandler(TravelnspirationDbContext dbContext, IMapper mapper) : IRequestHandler<CreateStopCommand, IResult>
         {
             private readonly TravelnspirationDbContext _dbContext  = dbContext;
