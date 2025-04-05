@@ -38,6 +38,7 @@ namespace TravelInspiration.API.Features.Stops
         {
             var itinerary = await _dbContext.Itineraries
                     .Include(i => i.Stops)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(i => i.Id == request.ItineraryId, cancellationToken);
 
             if (itinerary is null)

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using TravelInspiration.API.Shared.Domain.Entities;
+using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
 using TravelInspiration.API.Shared.Slices;
 
@@ -25,13 +26,13 @@ namespace TravelInspiration.API.Features.Stops
                     return mediator.Send(createStopCommand);
                 });
         }
-        public sealed class CreateStopCommand(int itineraryId, 
+        public sealed class CreateStopCommand(int itineraryId,
             string name,
-            string? imageUri) : IRequest<IResult> 
+            string? imageUri) : IRequest<IResult>
         {
-            public int ItineraryId { get; set;} = itineraryId;
-            public string Name { get; set;} = name;
-            public string? ImageUri { get; set;} = imageUri;
+            public int ItineraryId { get; set; } = itineraryId;
+            public string Name { get; set; } = name;
+            public string? ImageUri { get; set; } = imageUri;
 
         }
         public sealed class CreateStopCommandValidator : AbstractValidator<CreateStopCommand>
@@ -50,7 +51,7 @@ namespace TravelInspiration.API.Features.Stops
         }
         public sealed class CreateStopCommandHandler(TravelnspirationDbContext dbContext, IMapper mapper) : IRequestHandler<CreateStopCommand, IResult>
         {
-            private readonly TravelnspirationDbContext _dbContext  = dbContext;
+            private readonly TravelnspirationDbContext _dbContext = dbContext;
             private readonly IMapper _mapper = mapper;
 
             public async Task<IResult> Handle(CreateStopCommand request, CancellationToken cancellationToken)
@@ -75,10 +76,11 @@ namespace TravelInspiration.API.Features.Stops
         }
         public sealed class StopDto
         {
-            public required int Id { get; set;}
-            public required string Name { get; set;}
-            public Uri? ImageUri { get; set;}
-            public required int ItineraryId { get; set;}
+            public required int Id { get; set; }
+            public required string Name { get; set; }
+            public bool? Suggested { get; set; }
+            public Uri? ImageUri { get; set; }
+            public required int ItineraryId { get; set; }
 
         }
         public sealed class StopMapProfileAfterCreation : Profile
@@ -86,6 +88,43 @@ namespace TravelInspiration.API.Features.Stops
             public StopMapProfileAfterCreation()
             {
                 CreateMap<Stop, StopDto>().ReverseMap();
+            }
+        }
+
+        public sealed class SuggestedStopCreatedEventHandler(ILogger logger, TravelnspirationDbContext dbContext) : INotificationHandler<StopCreatedEvent>
+        {
+            public readonly ILogger _logger = logger;
+            public readonly TravelnspirationDbContext _dbContext = dbContext;
+
+            public Task Handle(StopCreatedEvent notification, CancellationToken cancellationToken)
+            {
+                _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered.",
+                    GetType().Name, notification.GetType().Name);
+
+                var incomingStop = notification.Stop;
+
+                // some AI to generate suggested stop
+
+                var stop = new Stop($"AI-ified stop based on {incomingStop.Name}")
+                {
+                    ItineraryId = incomingStop.ItineraryId,
+                    ImageUri = new Uri("https://herebeimages.ciom/aigeneratedimage.jpg"),
+                    Suggested = true
+                };
+
+                _dbContext.Stops.Add(stop);
+                return Task.CompletedTask;
+            }
+        }
+        public sealed class SuggestItineraryStopCreatedEventHandler(ILogger<SuggestItineraryStopCreatedEventHandler> logger) : INotificationHandler<StopCreatedEvent>
+        {
+            private readonly ILogger<SuggestItineraryStopCreatedEventHandler> _logger = logger;
+
+            public Task Handle(StopCreatedEvent notification, CancellationToken cancellationToken)
+            {
+                _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered.",
+                    GetType().Name, notification.GetType().Name);
+                return Task.CompletedTask;
             }
         }
     }

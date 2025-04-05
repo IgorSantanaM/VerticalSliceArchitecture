@@ -17,6 +17,7 @@ namespace TravelInspiration.API.Shared.Behaviours
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
+
             _timer.Start();
             var respose = await next();
             _timer.Stop();
