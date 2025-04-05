@@ -1,8 +1,10 @@
 ﻿using TravelInspiration.API.Features.Stops;
+using TravelInspiration.API.Shared.Domain.DomainEvents;
+using TravelInspiration.API.Shared.Domain.Events;
 
 namespace TravelInspiration.API.Shared.Domain.Entities
 {
-    public sealed class Stop(string name) : AuditableEntity
+    public sealed class Stop(string name) : AuditableEntity, IHasDomainEvent
     {
         public int Id { get; set; }
 
@@ -11,14 +13,17 @@ namespace TravelInspiration.API.Shared.Domain.Entities
         public Uri? ImageUri { get; set; }
 
         public int ItineraryId { get; set; }
-
+        public bool? Suggested { get; set; }
         public Itinerary? Itinerary { get; set; }
+
+        public IList<DomainEvent> DomainEvents { get; } = [];
 
         public void HandleCreateCommand(CreateStop.CreateStopCommand createStopCommand)
         {
-            ImageUri = createStopCommand.ImageUri == null ? null : new Uri(createStopCommand.ImageUri);
-
+            ImageUri = createStopCommand.ImageUri == null ?
+                null : new Uri(createStopCommand.ImageUri);
             ItineraryId = createStopCommand.ItineraryId;
+            DomainEvents.Add(new StopCreatedEvent(this));
         }
     }
 }

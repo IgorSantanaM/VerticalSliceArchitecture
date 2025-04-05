@@ -46,7 +46,7 @@ public sealed class GetItineraries : ISlice
 
     public sealed class GetItinerariesHandler(TravelnspirationDbContext dbContext,
         IMapper mapper, ILogger<GetItinerariesHandler> logger) : IRequestHandler<GetItinerariesQuery, IResult>
-    { 
+    {
 
         private readonly TravelnspirationDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
@@ -58,6 +58,7 @@ public sealed class GetItineraries : ISlice
             var itineraries = await
                 dbContext.Itineraries.Where(i => request.SearchFor == null ||
                 i.Name.Contains(request.SearchFor) || (i.Description != null && i.Description.Contains(request.SearchFor)))
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
             return Results.Ok(_mapper.Map<IEnumerable<ItineraryDto>>(itineraries));
