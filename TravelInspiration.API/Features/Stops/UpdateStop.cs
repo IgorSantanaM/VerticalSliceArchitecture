@@ -93,21 +93,5 @@ namespace TravelInspiration.API.Features.Stops
                 CreateMap<Stop, StopDto>().ReverseMap();
             }
         }
-        public sealed class SuggestStopStopUpdatedEventHandler(
-            ILogger<SuggestStopStopUpdatedEventHandler> logger)
-            : INotificationHandler<StopUpdatedEvent>
-        {
-            private readonly ILogger<SuggestStopStopUpdatedEventHandler> _logger = logger;
-
-            public Task Handle(StopUpdatedEvent notification, CancellationToken cancellationToken)
-            {
-                _logger.LogInformation("Listener: {Listener}, to Domain Event: {domaiEvent} triggered",
-                    GetType().Name,
-                    notification.GetType().Name);
-
-
-                return Task.CompletedTask;
-            }
-        }
     }
 }

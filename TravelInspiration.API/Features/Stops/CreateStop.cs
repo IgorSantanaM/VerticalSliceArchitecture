@@ -116,16 +116,5 @@ namespace TravelInspiration.API.Features.Stops
                 return Task.CompletedTask;
             }
         }
-        public sealed class SuggestItineraryStopCreatedEventHandler(ILogger<SuggestItineraryStopCreatedEventHandler> logger) : INotificationHandler<StopCreatedEvent>
-        {
-            private readonly ILogger<SuggestItineraryStopCreatedEventHandler> _logger = logger;
-
-            public Task Handle(StopCreatedEvent notification, CancellationToken cancellationToken)
-            {
-                _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered.",
-                    GetType().Name, notification.GetType().Name);
-                return Task.CompletedTask;
-            }
-        }
     }
 }
