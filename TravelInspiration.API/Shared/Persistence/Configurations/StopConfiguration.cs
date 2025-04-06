@@ -16,7 +16,7 @@ namespace TravelInspiration.API.Shared.Persistence.Configurations
                 .WithMany(i => i.Stops)
                 .HasForeignKey(s => s.ItineraryId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.Ignore(s => s.DomainEvents);
+            builder.Ignore(s => s.  DomainEvents);
             builder.Property(e => e.Suggested)
                 .HasDefaultValue(false);
         }
