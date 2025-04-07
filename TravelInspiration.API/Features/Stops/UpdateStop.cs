@@ -19,7 +19,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     updateStopCommand.ItineraryId = itineraryId;
                     updateStopCommand.StopId = stopId;
-                });
+                }).RequireAuthorization();
         }
 
         public sealed class UpdateStopCommand : IRequest<IResult>

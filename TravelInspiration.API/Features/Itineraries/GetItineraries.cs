@@ -18,7 +18,7 @@ public sealed class GetItineraries : ISlice
             CancellationToken cancellationToken) =>
             {
                 return mediator.Send(new GetItinerariesQuery(searchFor), cancellationToken);
-            });
+            }).RequireAuthorization();
     }
 
     public sealed class GetItinerariesQuery(string? searchFor) : IRequest<IResult>

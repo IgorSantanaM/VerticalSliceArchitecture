@@ -24,7 +24,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     createStopCommand.ItineraryId = itinerartyId;
                     return mediator.Send(createStopCommand);
-                });
+                }).RequireAuthorization();
         }
         public sealed class CreateStopCommand(int itineraryId,
             string name,

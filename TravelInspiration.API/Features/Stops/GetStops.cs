@@ -19,7 +19,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     mediator.Send(new GetStopsQuery(itneararyId), cancellationToken);
 
-                });
+                }).RequireAuthorization();
         }
     }
 
