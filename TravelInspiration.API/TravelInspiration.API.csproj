@@ -12,6 +12,7 @@
     <PackageReference Include="fluentvalidation" Version="11.11.0" />
     <PackageReference Include="fluentvalidation.dependencyinjectionextensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.Aspnetcore.authentication.jwtbearer" Version="9.0.3" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="9.0.3" />
     <PackageReference Include="microsoft.entityframeworkcore.tools" Version="9.0.3">
       <PrivateAssets>all</PrivateAssets>

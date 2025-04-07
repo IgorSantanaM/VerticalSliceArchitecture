@@ -24,7 +24,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     createStopCommand.ItineraryId = itinerartyId;
                     return mediator.Send(createStopCommand);
-                });
+                }).RequireAuthorization();
         }
         public sealed class CreateStopCommand(int itineraryId,
             string name,
@@ -113,17 +113,6 @@ namespace TravelInspiration.API.Features.Stops
                 };
 
                 _dbContext.Stops.Add(stop);
-                return Task.CompletedTask;
-            }
-        }
-        public sealed class SuggestItineraryStopCreatedEventHandler(ILogger<SuggestItineraryStopCreatedEventHandler> logger) : INotificationHandler<StopCreatedEvent>
-        {
-            private readonly ILogger<SuggestItineraryStopCreatedEventHandler> _logger = logger;
-
-            public Task Handle(StopCreatedEvent notification, CancellationToken cancellationToken)
-            {
-                _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered.",
-                    GetType().Name, notification.GetType().Name);
                 return Task.CompletedTask;
             }
         }

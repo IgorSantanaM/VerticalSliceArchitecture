@@ -19,7 +19,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     updateStopCommand.ItineraryId = itineraryId;
                     updateStopCommand.StopId = stopId;
-                });
+                }).RequireAuthorization();
         }
 
         public sealed class UpdateStopCommand : IRequest<IResult>
@@ -91,22 +91,6 @@ namespace TravelInspiration.API.Features.Stops
             public StopMapProfileAfterUpdate()
             {
                 CreateMap<Stop, StopDto>().ReverseMap();
-            }
-        }
-        public sealed class SuggestStopStopUpdatedEventHandler(
-            ILogger<SuggestStopStopUpdatedEventHandler> logger)
-            : INotificationHandler<StopUpdatedEvent>
-        {
-            private readonly ILogger<SuggestStopStopUpdatedEventHandler> _logger = logger;
-
-            public Task Handle(StopUpdatedEvent notification, CancellationToken cancellationToken)
-            {
-                _logger.LogInformation("Listener: {Listener}, to Domain Event: {domaiEvent} triggered",
-                    GetType().Name,
-                    notification.GetType().Name);
-
-
-                return Task.CompletedTask;
             }
         }
     }

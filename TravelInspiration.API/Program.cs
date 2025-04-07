@@ -8,6 +8,10 @@ services.AddProblemDetails();
 
 services.AddHttpClient();
 
+services.AddAuthentication("Bearer")
+        .AddJwtBearer();
+services.AddAuthorization();
+
 services.RegisterApplicationServices();
 services.RegisterPersistenceServices(builder.Configuration);
 
@@ -26,7 +30,8 @@ else
 }
 
 app.UseStatusCodePages();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapSliceEndpoints();
 
 app.Run();
