@@ -7,6 +7,7 @@ var services = builder.Services;
 services.AddProblemDetails();
 
 services.AddHttpClient();
+services.AddHttpContextAccessor();
 
 services.AddAuthentication("Bearer")
         .AddJwtBearer();

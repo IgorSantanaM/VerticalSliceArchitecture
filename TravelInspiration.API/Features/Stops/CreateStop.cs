@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
+using TravelInspiration.API.Shared.Security;
 using TravelInspiration.API.Shared.Slices;
 
 namespace TravelInspiration.API.Features.Stops
@@ -24,7 +23,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     createStopCommand.ItineraryId = itinerartyId;
                     return mediator.Send(createStopCommand);
-                }).RequireAuthorization();
+                }).RequireAuthorization(AuthorizationPolicies.HasWriteActionPolicy);
         }
         public sealed class CreateStopCommand(int itineraryId,
             string name,
