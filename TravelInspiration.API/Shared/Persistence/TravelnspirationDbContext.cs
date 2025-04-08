@@ -2,14 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.DomainEvents;
 using TravelInspiration.API.Shared.Domain.Entities;
+using TravelInspiration.API.Shared.Security;
 
 namespace TravelInspiration.API.Shared.Persistence
 {
-    public sealed class TravelnspirationDbContext(DbContextOptions<TravelnspirationDbContext> options, IPublisher publisher) : DbContext (options)
+    public sealed class TravelnspirationDbContext(DbContextOptions<TravelnspirationDbContext> options, IPublisher publisher, ICurrentUserService currentUserService) : DbContext (options)
     {
         public DbSet<Itinerary> Itineraries => Set<Itinerary>();
         public DbSet<Stop> Stops => Set<Stop>();
+
         private readonly IPublisher _publisher = publisher;
+        private readonly ICurrentUserService _currentUserService = currentUserService;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,13 +29,13 @@ namespace TravelInspiration.API.Shared.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedOn = DateTime.UtcNow;
-                        entry.Entity.CreatedBy = "TODO";
+                        entry.Entity.CreatedBy = _currentUserService.UserId;
                         entry.Entity.LastModifiedOn = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = "TODO";
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedOn = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = "TODO";
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
                         break;
                 }
             }

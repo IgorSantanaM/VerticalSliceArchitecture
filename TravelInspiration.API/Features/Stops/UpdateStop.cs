@@ -3,8 +3,8 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
-using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
+using TravelInspiration.API.Shared.Security;
 using TravelInspiration.API.Shared.Slices;
 
 namespace TravelInspiration.API.Features.Stops
@@ -19,7 +19,7 @@ namespace TravelInspiration.API.Features.Stops
                 {
                     updateStopCommand.ItineraryId = itineraryId;
                     updateStopCommand.StopId = stopId;
-                }).RequireAuthorization();
+                }).RequireAuthorization(AuthorizationPolicies.HasWriteActionPolicy);
         }
 
         public sealed class UpdateStopCommand : IRequest<IResult>
