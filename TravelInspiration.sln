@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalDestinationSearch.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelInpiration.Api.UnitTests", "TravelInpiration.Api.UnitTests\TravelInpiration.Api.UnitTests.csproj", "{FFB634A8-E736-4A95-A7D8-7A215EC296CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelInpiration.Api.IntegrationTests", "TravelInpiration.Api.IntegrationTests\TravelInpiration.Api.IntegrationTests.csproj", "{D83522A0-85FB-41F6-A30F-7922DF5B2885}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FFB634A8-E736-4A95-A7D8-7A215EC296CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFB634A8-E736-4A95-A7D8-7A215EC296CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFB634A8-E736-4A95-A7D8-7A215EC296CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D83522A0-85FB-41F6-A30F-7922DF5B2885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D83522A0-85FB-41F6-A30F-7922DF5B2885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D83522A0-85FB-41F6-A30F-7922DF5B2885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D83522A0-85FB-41F6-A30F-7922DF5B2885}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
